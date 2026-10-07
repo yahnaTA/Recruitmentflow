@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recruitment Process Flowchart</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #FFFFFF;
+    color: #2C2C2B;
+    padding: 48px 32px;
+    min-height: 100vh;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2C2C2B;
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: #7D7A75;
+    margin-bottom: 48px;
+  }
+  .chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .step {
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+  }
+  .step-left {
+    width: 140px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 20px;
+    padding-top: 14px;
+  }
+  .actor-tag {
+    font-size: 11px;
+    font-weight: 600;
+    color: #7D7A75;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: right;
+    line-height: 1.4;
+  }
+  .step-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 28px;
+    flex-shrink: 0;
+  }
+  .node-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #2783DE;
+    flex-shrink: 0;
+    margin-top: 19px;
+    z-index: 1;
+  }
+  .node-dot.decision {
+    background: #D5803B;
+    border-radius: 3px;
+    transform: rotate(45deg);
+    width: 12px;
+    height: 12px;
+    margin-top: 20px;
+  }
+  .node-dot.end {
+    background: #46A171;
+  }
+  .connector {
+    width: 2px;
+    background: #E6E5E3;
+    flex: 1;
+    min-height: 20px;
+  }
+  .step-right {
+    flex: 1;
+    padding: 10px 0 10px 20px;
+  }
+  .card {
+    background: #F9F8F7;
+    border: 1px solid #E6E5E3;
+    border-radius: 10px;
+    padding: 14px 18px;
+    position: relative;
+  }
+  .card.highlight {
+    background: #E5F2FC;
+    border-color: #2783DE;
+  }
+  .card.decision-card {
+    background: #FBEBDE;
+    border-color: #D5803B;
+  }
+  .card.end-card {
+    background: #E8F1EC;
+    border-color: #46A171;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2C2C2B;
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+  .card-desc {
+    font-size: 12px;
+    color: #7D7A75;
+    line-height: 1.5;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 100px;
+    margin-bottom: 6px;
+  }
+  .badge.blue { background: #E5F2FC; color: #2783DE; }
+  .badge.orange { background: #FBEBDE; color: #D5803B; }
+  .badge.green { background: #E8F1EC; color: #46A171; }
+  .badge.gray { background: #F0EFED; color: #7D7A75; }
+  .branch {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    margin: 0;
+    padding-left: 160px;
+  }
+  .branch-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .branch-line {
+    width: 2px;
+    height: 24px;
+    background: #E6E5E3;
+  }
+  .branch-line.orange { background: #D5803B; }
+  .branch-line.green { background: #46A171; }
+  .branch-card {
+    width: 100%;
+    background: #F9F8F7;
+    border: 1px solid #E6E5E3;
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-align: center;
+  }
+  .branch-card.rejected {
+    background: #FCE9E7;
+    border-color: #E56458;
+  }
+  .branch-card.approved {
+    background: #E8F1EC;
+    border-color: #46A171;
+  }
+  .branch-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 4px;
+  }
+  .branch-label.red { color: #E56458; }
+  .branch-label.green { color: #46A171; }
+  .branch-card-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #2C2C2B;
+    line-height: 1.4;
+  }
+  .branch-card-desc {
+    font-size: 11px;
+    color: #7D7A75;
+    margin-top: 2px;
+  }
+  .tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .tag {
+    font-size: 11px;
+    color: #7D7A75;
+    background: #F0EFED;
+    border-radius: 5px;
+    padding: 2px 8px;
+  }
+  .spacer-line {
+    width: 2px;
+    height: 32px;
+    background: #E6E5E3;
+    margin-left: 153px;
+    align-self: flex-start;
+  }
+</style>
+</head>
+<body>
+
+<h1>Recruitment Process</h1>
+<p class="subtitle">End-to-end hiring workflow — from manpower request to role opening</p>
+
+<div class="chart">
+
+  <!-- Step 1 -->
+  <div class="step">
+    <div class="step-left">
+      <span class="actor-tag">Hiring<br>Manager</span>
+    </div>
+    <div class="step-center">
+      <div class="node-dot"></div>
+      <div class="connector"></div>
+    </div>
+    <div class="step-right">
+      <div class="card highlight">
+        <span class="badge blue">Step 1</span>
+        <div class="card-title">Submit Manpower Request</div>
+        <div class="card-desc">Hiring Manager submits a budgeted manpower request to the Talent Acquisition Manager.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="step">
+    <div class="step-left">
+      <span class="actor-tag">TA<br>Manager</span>
+    </div>
+    <div class="step-center">
+      <div class="node-dot"></div>
+      <div class="connector"></div>
+    </div>
+    <div class="step-right">
+      <div class="card">
+        <span class="badge gray">Step 2</span>
+        <div class="card-title">TA Team Meeting</div>
+        <div class="card-desc">TA Manager meets with the TA Team to review the request and agree to open the position.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="step">
+    <div class="step-left">
+      <span class="actor-tag">TA Manager<br>TA Officer<br>Hiring Mgr</span>
+    </div>
+    <div class="step-center">
+      <div class="node-dot"></div>
+      <div class="connector"></div>
+    </div>
+    <div class="step-right">
+      <div class="card highlight">
+        <span class="badge blue">Step 3</span>
+        <div class="card-title">Triangle Meeting</div>
+        <div class="card-desc">Three-way alignment session between TA Manager, TA Officer, and Hiring Manager.</div>
+        <div class="tags">
+          <span class="tag">Manpower Request</span>
+          <span class="tag">Job Description</span>
+          <span class="tag">Role Requirements</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="step">
+    <div class="step-left">
+      <span class="actor-tag">All Three<br>Parties</span>
+    </div>
+    <div class="step-center">
+      <div class="node-dot"></div>
+      <div class="connector"></div>
+    </div>
+    <div class="step-right">
+      <div class="card">
+        <span class="badge gray">Step 4</span>
+        <div class="card-title">Review Department Recruitment Form</div>
+        <div class="card-desc">Complete and discuss the DRF — covering the manpower request details, job description, and position requirements. Q&A session with Hiring Manager to finalise all details.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 5 -->
+  <div class="step">
+    <div class="step-left">
+      <span class="actor-tag">Hiring<br>Manager</span>
+    </div>
+    <div class="step-center">
+      <div class="node-dot decision"></div>
+      <div class="connector"></div>
+    </div>
+    <div class="step-right">
+      <div class="card decision-card">
+        <span class="badge orange">Step 5 · Decision</span>
+        <div class="card-title">Seek HOD Approval</div>
+        <div class="card-desc">Hiring Manager presents the finalised DRF to the Head of Department for sign-off.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Branch -->
+  <div class="branch">
+    <div class="branch-item">
+      <div class="branch-line orange"></div>
+      <div class="branch-card rejected">
+        <div class="branch-label red">Not Approved</div>
+        <div class="branch-card-title">Revise &amp; Resubmit</div>
+        <div class="branch-card-desc">Return to Triangle Meeting to address HOD feedback</div>
+      </div>
+    </div>
+    <div class="branch-item">
+      <div class="branch-line green"></div>
+      <div class="branch-card approved">
+        <div class="branch-label green">Approved ✓</div>
+        <div class="branch-card-title">Proceed to Recruitment</div>
+        <div class="branch-card-desc">DRF signed off — position officially open</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spacer-line"></div>
+
+  <!-- Step 6 -->
+  <div class="step">
+    <div class="step-left">
+      <span class="actor-tag">TA Team</span>
+    </div>
+    <div class="step-center">
+      <div class="node-dot end"></div>
+      <div class="connector" style="background: transparent;"></div>
+    </div>
+    <div class="step-right">
+      <div class="card end-card">
+        <span class="badge green">Step 6</span>
+        <div class="card-title">Start Recruitment Procedure</div>
+        <div class="card-desc">Post the role, source candidates, and begin screening. Track all candidates and interviews in Notion.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
